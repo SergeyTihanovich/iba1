@@ -54,18 +54,25 @@ class Aircraft:
 
     # обычный метод для вывода вариантов вылета в запрошенный период
 
-    def period_needed(startTime, finishTime, requestedWeekday):
-        start_date = datetime.datetime.strptime(startTime, '%d/%m/%Y')
-        finish_date = datetime.datetime.strptime(finishTime, '%d/%m/%Y')
-        print('_____All possible flights for the requested period:________')
+       def period_needed(startTime, finishTime, requestedWeekday):
+        flyDates = []
+        start_date = datetime.datetime.strptime(startTime, '%Y-%m-%d')
+        finish_date = datetime.datetime.strptime(finishTime, '%Y-%m-%d')
+        # print('_____All possible flights for the requested period:________')
         for i in range((finish_date - start_date).days):
             flyDate = datetime.datetime.date(start_date + datetime.timedelta(days=i))
+            flyDate = str(flyDate)
             period = calendar.day_name[(start_date + datetime.timedelta(days=i + 7)).weekday()]
             if period == requestedWeekday:
-                print(period)
-                print(flyDate, '\n')
+                flyDates.append(flyDate)
 
-        return period
+                # print(period)
+                # print(flyDate, '\n')
+        print('Печать списка flyDates-возможных дат вылета в запрошенный период. День недели вылета: ', requestedWeekday)
+        for flyDate in flyDates:
+            print(flyDate)
+
+        return flyDates
 
         # статический метод для вывода списка рейсов
 
@@ -91,11 +98,15 @@ class ChildClass(Aircraft):
 
 
 if __name__ == '__main__':
-    # реализация метода period_neded
+     # реализация метода period_neded
     print('Реализация метода period_needed - после введения запрошенного периода выдается день недели и дата вылета: ',
           '\n')
-    Aircraft.period_needed("12/03/2022", "01/04/2022", "Monday")
+    Aircraft.period_needed("2022-03-12", "2022-04-01", "Monday")
+    print('\n')
 
+    # создание 2-x объектов экземпляров класса
+    first_aircraft = Aircraft('Vienna', 11111, 'Boing747', 'Tuesday', '5.45')
+    second_aircraft = Aircraft('Frankfurt', 22222, 'Boing777', 'Friday', '10.05')
     # создание 2-x объектов экземпляров класса
     first_aircraft = Aircraft('Vienna', 11111, 'Boing747', 'Tuesday', '5.45')
     second_aircraft = Aircraft('Frankfurt', 22222, 'Boing777', 'Friday', '10.05')
